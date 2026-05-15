@@ -1,0 +1,40 @@
+{
+  "base": {
+    "name": "日常任务工作台",
+    "token": "",
+    "wiki_node_token": "",
+    "wiki_entry_url": "",
+    "wiki_entry_doc_token": "",
+    "table_id": "",
+    "table_name": "任务"
+  },
+  "drive": {
+    "workspace_folder_token": "",
+    "task_docs_folder_token": ""
+  },
+  "fields": {
+    "title": "任务",
+    "status": "状态",
+    "importance": "重要程度",
+    "due": "截止时间",
+    "next_time": "下一步时间",
+    "next_action": "下一步动作",
+    "tags": "标签",
+    "source": "项目来源",
+    "external_link_1": "外部链接 1",
+    "external_link_2": "外部链接 2",
+    "external_link_3": "外部链接 3",
+    "user_input": "用户原话",
+    "import_record": "导入记录",
+    "notes": "备注",
+    "created_from": "创建来源",
+    "weekly_commitment": "每周预计投入",
+    "completed_at": "完成时间",
+    "agent_workspace": "Agent 工作区",
+    "cover": "封面",
+    "feishu_link": "飞书链接"
+  },
+  "status_options": ["待办", "进行中", "等待", "完成"],
+  "importance_options": ["P0", "P1", "P2", "P3"],
+  "default_tags": ["paper", "code", "admin", "writing", "meeting", "personal"]
+}

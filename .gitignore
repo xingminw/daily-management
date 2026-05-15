@@ -1,0 +1,5 @@
+config/lark_daily_workspace.json
+.DS_Store
+__pycache__/
+*.pyc
+.tmp/
