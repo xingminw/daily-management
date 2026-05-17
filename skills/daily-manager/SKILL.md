@@ -36,7 +36,6 @@ Global Feishu location:
 - Table name: `任务` (historical table name; treat each row as a `工作项`)
 - Table id: `tbldFwiuV4K0l2Lp`
 - Views: `表格` and `看板`
-- Card cover field: `封面` (attachment)
 - Raw attachment field: `原始附件` (attachment; QR codes, screenshots, receipts, and source materials)
 - External link fields: `外部链接 1`, `外部链接 2`, `外部链接 3` (URL text, one clickable external URL per field)
 - Feishu links field: `飞书链接` (Feishu-internal URL; default empty)
@@ -183,17 +182,13 @@ Use `飞书链接` only for Feishu-internal resources such as Feishu Drive folde
 
 Do not create a standalone document for every small work item. When long notes, drafts, materials, or multi-step continuation are needed, create or reuse a Feishu document from the location referenced by `飞书链接`.
 
-Use `封面` only for card cover images. Feishu kanban card cover must be backed by an attachment field, so upload or generate a small image into `封面` when the user asks for work-item covers. Do not use `飞书链接` as a cover field.
-
-When creating covers, prefer the built-in image generation model to make simple generated cartoon/illustration covers that match the work-item topic. Default to a 1:1 square image because Feishu mobile card previews crop wide images awkwardly. Avoid crude local placeholder graphics made only from flat colors and text unless the user explicitly wants a temporary placeholder. A cover task is not complete until the image is uploaded to the work item's `封面` attachment field in Feishu.
-
-Use `原始附件` for source materials such as QR codes, receipts, screenshots, forms, and other files the user provides as evidence or operational material. Do not put these files into `封面` unless the user explicitly wants the file to be the card cover.
+Use `原始附件` for source materials such as QR codes, receipts, screenshots, forms, audio/video, and other files the user provides as evidence or operational material.
 
 ## Effort Rules
 
 `每周预计投入` is a number field measured in hours per week. Store only the numeric hour value. If the user says "每周一天", use `8` hours only when that conversion is reasonable, and record the conversion assumption in `Agent 工作区`.
 
-Attachment overwrite caveat: Feishu Base attachment fields cannot be overwritten through normal `record-upsert`; the upload shortcut may append instead of replacing. To replace a cover cleanly, either ask the user to clear the old attachment in the UI, use browser/UI automation with explicit permission, or create/switch to a fresh attachment field for the active `封面` field. Do not assume CLI permissions alone will make attachment overwrite possible.
+Attachment overwrite caveat: Feishu Base attachment fields cannot be overwritten through normal `record-upsert`; the upload shortcut may append instead of replacing. Do not assume CLI permissions alone will make attachment overwrite possible.
 
 ## Safety
 

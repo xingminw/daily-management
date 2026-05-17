@@ -59,7 +59,7 @@ Choose the artifact type by intent:
 - Work item or follow-up: write to `日常工作项`.
 - Random idea, scratch note, meeting note, observation, reading note, or loose thought: write to `日常笔记`.
 - Long project context, drafts, references, or multi-round notes for one project: create or update a project note/index and link it from relevant tasks.
-- Files, images, covers, exports, raw assets, and generated artifacts: store in Feishu Drive backing folders and link from the visible entry when useful.
+- Files, images, exports, raw assets, and generated artifacts: store in Feishu Drive backing folders and link from the visible entry when useful.
 - Workspace entrances or shortcuts: keep out of Drive backing folders; use `我的文档库` or the native Feishu document/wiki surface as the entrance.
 
 Do not promote every note into a work item. Promote only when the user clearly asks or when there is already a clear object to advance with a next action, deadline, owner, or follow-up need.
@@ -69,7 +69,7 @@ Do not promote every note into a work item. Promote only when the user clearly a
 When adding a new repeated personal workflow in Feishu, follow the same light two-layer pattern unless the user explicitly asks otherwise:
 
 - Create the user-facing entry in `我的文档库` or the native Feishu document/wiki surface.
-- Keep backing files in a Drive materials folder: attachments, screenshots, generated covers, audio/video, exports, and raw source files.
+- Keep backing files in a Drive materials folder: attachments, screenshots, audio/video, exports, and raw source files.
 - Do not put the visible entry itself, or shortcuts to it, inside the backing Drive folder.
 - Name the visible entry for the thing the user opens; name Drive folders for the materials they store.
 - Keep the first version small: one visible entry and one backing materials area is usually enough.
