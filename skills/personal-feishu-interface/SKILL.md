@@ -36,7 +36,11 @@ Do not make Drive folders the primary daily entry unless the user explicitly ask
 ## Current Known Entries
 
 - `日常任务工作台`: visible Base entry for work items: projects, papers, administrative matters, code efforts, reviews, status, timeline, importance, next action, tags, external links, and Feishu links. The current table is named `任务`, but each row should be treated as a `工作项`.
-- `日常记录工作台`: recommended visible entry for sticky notes, daily notes, random ideas, meeting notes, and non-actionable work fragments. Create this when the user asks to implement the notes layer.
+- `日常记录工作台`: visible Base entry for sticky notes, daily notes, random ideas, meeting notes, and non-actionable work fragments.
+  - Base token: `FGyobSwcpaxVWjspWRRcs2xGnac`
+  - URL: `https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac`
+  - Main table: `Notes` (`tblvDv4i88wCOaAn`)
+  - Backing materials folder: `日常记录材料` (`https://my.feishu.cn/drive/folder/XZDKfLFr1lYkXFdjjdkcYTGZndc`)
 
 The daily work-item system details live in `daily-manager`. Use that skill when the artifact is a work item, work-item update, project progress sync, or daily/weekly work-item review.
 
@@ -53,30 +57,51 @@ Do not promote every note into a work item. Promote only when the user clearly a
 
 ## Notes Layer
 
-Default notes organization should stay simple:
+Default notes organization should stay simple. The first version is a Base table, one note per record, not one document per day:
 
 ```text
 日常记录工作台
-  今天
-  Inbox
-  项目相关
+  Notes
+    全部记录
+    今天
+    Inbox
+    按工作项
 ```
 
-Use date grouping as a view or naming convention when useful, not as a required folder hierarchy:
+Fields:
 
 ```text
-YYYY
-  YYYY-MM
-    YYYY-MM-DD 日常记录
+标题
+日期
+类型
+标签
+正文 / 用户原话
+关联工作项
+飞书链接
+外部链接 1
+外部链接 2
+外部链接 3
+原始附件
+Agent 工作区
 ```
 
-A daily note may contain:
+Note type options:
 
-- Inbox: uncategorized thoughts and sticky notes.
-- Project-related fragments: short notes that link to one or more work items.
-- Meetings or decisions when the user gives them.
+```text
+idea
+meeting
+progress
+reference
+decision
+question
+personal
+```
+
+Use date grouping as a view or naming convention when useful, not as a required folder hierarchy.
 
 Notes are first-class records, not subfields of work items. If a note becomes important to an existing work item, link the note to the work item. Add only a concise pointer or summary in the work item's `Agent 工作区`, or use `飞书链接` only when there is a stable Feishu note/index to link. Do not put many one-off note links directly into work-item fields.
+
+Because notes and work items currently live in separate Bases, `关联工作项` is a text field in the first version. Store work-item titles and, when available, record links. Do not assume cross-Base record-link fields are available.
 
 ## Project Linking
 

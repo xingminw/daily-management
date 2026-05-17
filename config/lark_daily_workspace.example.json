@@ -8,9 +8,32 @@
     "table_id": "",
     "table_name": "任务"
   },
+  "notes_base": {
+    "name": "日常记录工作台",
+    "token": "",
+    "table_id": "",
+    "table_name": "Notes",
+    "url": ""
+  },
   "drive": {
     "workspace_folder_token": "",
-    "task_docs_folder_token": ""
+    "task_docs_folder_token": "",
+    "notes_materials_folder_token": "",
+    "notes_materials_folder_url": ""
+  },
+  "notes_fields": {
+    "title": "标题",
+    "date": "日期",
+    "type": "类型",
+    "tags": "标签",
+    "body": "正文 / 用户原话",
+    "linked_work_items": "关联工作项",
+    "feishu_link": "飞书链接",
+    "external_link_1": "外部链接 1",
+    "external_link_2": "外部链接 2",
+    "external_link_3": "外部链接 3",
+    "raw_attachment": "原始附件",
+    "agent_workspace": "Agent 工作区"
   },
   "fields": {
     "title": "任务",
@@ -36,5 +59,6 @@
   },
   "status_options": ["待办", "进行中", "等待", "完成"],
   "importance_options": ["P0", "P1", "P2", "P3"],
-  "default_tags": ["paper", "code", "admin", "writing", "meeting", "personal"]
+  "default_tags": ["paper", "code", "admin", "writing", "meeting", "personal"],
+  "note_type_options": ["idea", "meeting", "progress", "reference", "decision", "question", "personal"]
 }

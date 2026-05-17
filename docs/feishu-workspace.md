@@ -19,11 +19,55 @@
 入口层放在 `我的文档库`：
 
 - `日常任务工作台` Base 本体作为个人文档库节点出现。
-- 后续 `日常记录工作台` 也应作为个人文档库节点出现，用于 sticky notes、daily notes、random ideas 和会议纪要。
+- `日常记录工作台` 也作为个人文档库节点出现，用于 sticky notes、daily notes、random ideas 和会议纪要。
 - 第一阶段 Base 里只保留一张主表：`任务`。
 - 工作项附件和后续材料仍保存在云盘工作区；notes 作为独立入口另行管理。
 
 原则是：用户经常打开和浏览的入口放在 `我的文档库`；云盘主要作为底层材料、附件、图片、导出文件和项目资料存储层，不作为日常导航入口。
+
+## Notes 工作台
+
+`日常记录工作台` 是独立 Base：
+
+```text
+Base: 日常记录工作台
+URL: https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac
+Table: Notes
+Table ID: tblvDv4i88wCOaAn
+```
+
+底层材料放在云盘：
+
+```text
+日常记录材料
+https://my.feishu.cn/drive/folder/XZDKfLFr1lYkXFdjjdkcYTGZndc
+```
+
+Notes 的最小单元是“条”，不是“天”。每次用户说一个想法、会议片段、进展碎片或临时判断，创建一条 note。按天只作为视图或筛选方式。
+
+第一版字段：
+
+| 字段名 | 类型建议 | 说明 |
+|---|---|---|
+| 标题 | 文本 / 标题字段 | Note 短标题。 |
+| 日期 | 日期 | Note 日期，默认按创建当天填写。 |
+| 类型 | 单选 | `idea`、`meeting`、`progress`、`reference`、`decision`、`question`、`personal`。 |
+| 标签 | 多选 | 轻量标签，例如 `paper`、`code`、`admin`、`writing`、`meeting`、`personal`、`idea`。 |
+| 正文 / 用户原话 | 长文本 | 用户原始记录内容，尽量保留原话。 |
+| 关联工作项 | 文本 | 关联的工作项标题或记录链接；第一版跨 Base 不使用关联记录字段。 |
+| 飞书链接 | URL | 飞书内部富文本正文、会议纪要、项目 note 或材料文件夹。 |
+| 外部链接 1/2/3 | URL | 外部网页、GitHub、Overleaf、论文等。 |
+| 原始附件 | 附件 | 截图、图片、PDF、材料文件等。 |
+| Agent 工作区 | 长文本 | Agent 解析、关联判断、整理建议和后续接手上下文。 |
+
+第一版视图：
+
+| 视图名 | 规则 |
+|---|---|
+| 全部记录 | 按 `日期` 倒序。 |
+| 今天 | `日期` 为 Today。 |
+| Inbox | `关联工作项` 为空。 |
+| 按工作项 | 按 `关联工作项` 分组，按 `日期` 倒序。 |
 
 ## 主表字段
 

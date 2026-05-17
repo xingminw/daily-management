@@ -57,6 +57,8 @@ When this skill is triggered from another repo, use the Feishu location above as
 
 For broader Feishu placement decisions such as whether something belongs in work items, sticky notes, project notes, visible workspace entries, or backing Drive storage, use the `personal-feishu-interface` skill first. This skill only owns work-item records and work-item-oriented progress sync.
 
+When the user explicitly says "记一个笔记", "记个想法", "记录一下", "随手记一下", or describes a loose thought, use `personal-feishu-interface` and write to `日常记录工作台 / Notes` instead of this work-item table. When the user says "记一个代办", "加个任务", "加个工作项", "这个要做", or gives a clear follow-up/deadline, use this work-item workflow. If the wording is ambiguous, ask whether it is a note or a work item.
+
 ## Capture Rules
 
 When creating or updating a work item, capture:
