@@ -37,6 +37,7 @@ Global Feishu location:
 - Table id: `tbldFwiuV4K0l2Lp`
 - Views: `表格` and `看板`
 - Card cover field: `封面` (attachment)
+- Raw attachment field: `原始附件` (attachment; QR codes, screenshots, receipts, and source materials)
 - External link fields: `外部链接 1`, `外部链接 2`, `外部链接 3` (URL text, one clickable external URL per field)
 - Feishu links field: `飞书链接` (Feishu-internal URL; default empty)
 - User input field: `用户原话`
@@ -181,6 +182,8 @@ Do not create a standalone document for every small work item. When long notes, 
 Use `封面` only for card cover images. Feishu kanban card cover must be backed by an attachment field, so upload or generate a small image into `封面` when the user asks for work-item covers. Do not use `飞书链接` as a cover field.
 
 When creating covers, prefer the built-in image generation model to make simple generated cartoon/illustration covers that match the work-item topic. Default to a 1:1 square image because Feishu mobile card previews crop wide images awkwardly. Avoid crude local placeholder graphics made only from flat colors and text unless the user explicitly wants a temporary placeholder. A cover task is not complete until the image is uploaded to the work item's `封面` attachment field in Feishu.
+
+Use `原始附件` for source materials such as QR codes, receipts, screenshots, forms, and other files the user provides as evidence or operational material. Do not put these files into `封面` unless the user explicitly wants the file to be the card cover.
 
 ## Effort Rules
 

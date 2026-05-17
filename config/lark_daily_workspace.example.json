@@ -31,6 +31,7 @@
     "completed_at": "完成时间",
     "agent_workspace": "Agent 工作区",
     "cover": "封面",
+    "raw_attachment": "原始附件",
     "feishu_link": "飞书链接"
   },
   "status_options": ["待办", "进行中", "等待", "完成"],
