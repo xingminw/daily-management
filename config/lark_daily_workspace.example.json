@@ -11,6 +11,8 @@
   "notes_base": {
     "name": "日常笔记",
     "token": "",
+    "wiki_node_token": "",
+    "wiki_entry_url": "",
     "table_id": "",
     "table_name": "Notes",
     "url": ""

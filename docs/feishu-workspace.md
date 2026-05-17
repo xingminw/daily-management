@@ -39,7 +39,8 @@
 
 ```text
 Base: 日常笔记
-URL: https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac
+Wiki entry: https://my.feishu.cn/wiki/FQgUwvMx5iNAj0ktY8Vcvsb4nwf
+Base URL: https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac
 Table: Notes
 Table ID: tblvDv4i88wCOaAn
 ```

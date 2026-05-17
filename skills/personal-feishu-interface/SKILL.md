@@ -41,8 +41,10 @@ Do not make Drive folders the primary daily entry unless the user explicitly ask
   - URL: `https://my.feishu.cn/base/F9p4bjm24axBY8sd8macJIySnYe`
   - Main table: `任务` (`tbldFwiuV4K0l2Lp`)
 - `日常笔记`: visible Base entry for sticky notes, daily notes, random ideas, meeting notes, and non-actionable work fragments.
+  - Wiki entry: `https://my.feishu.cn/wiki/FQgUwvMx5iNAj0ktY8Vcvsb4nwf`
+  - Wiki node token: `FQgUwvMx5iNAj0ktY8Vcvsb4nwf`
   - Base token: `FGyobSwcpaxVWjspWRRcs2xGnac`
-  - URL: `https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac`
+  - Base URL: `https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac`
   - Main table: `Notes` (`tblvDv4i88wCOaAn`)
 - Backing Drive folder: `日常管理材料` (`https://my.feishu.cn/drive/folder/Y8DkfIkNLlMfuhdIn31c6Mm4n2e`)
   - Work-item materials: `工作项材料` (`https://my.feishu.cn/drive/folder/Y1tefkAYXl8ZSXdYbJFc0HiDn7f`)
