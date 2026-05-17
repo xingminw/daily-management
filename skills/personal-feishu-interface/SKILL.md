@@ -64,6 +64,16 @@ Choose the artifact type by intent:
 
 Do not promote every note into a work item. Promote only when the user clearly asks or when there is already a clear object to advance with a next action, deadline, owner, or follow-up need.
 
+## Adding New Areas
+
+When adding a new repeated personal workflow in Feishu, follow the same light two-layer pattern unless the user explicitly asks otherwise:
+
+- Create the user-facing entry in `我的文档库` or the native Feishu document/wiki surface.
+- Keep backing files in a Drive materials folder: attachments, screenshots, generated covers, audio/video, exports, and raw source files.
+- Do not put the visible entry itself, or shortcuts to it, inside the backing Drive folder.
+- Name the visible entry for the thing the user opens; name Drive folders for the materials they store.
+- Keep the first version small: one visible entry and one backing materials area is usually enough.
+
 ## Notes Layer
 
 Default notes organization should stay simple. The first version is a Base table, one note per record, not one document per day:
