@@ -2,7 +2,7 @@
 
 ## Goal
 
-Generate a concise daily work-item brief from `日常任务工作台`.
+Generate a concise daily work-item brief from `日常工作项`.
 
 ## Inputs
 

@@ -31,7 +31,7 @@ The work-item state belongs in Feishu, not in the current repo.
 Global Feishu location:
 
 - Wiki entry: `https://www.feishu.cn/wiki/TwLCwijKki0Q9VkDiaMcP7GKnAg`
-- Base name: `日常任务工作台`
+- Base name: `日常工作项`
 - Base token: `F9p4bjm24axBY8sd8macJIySnYe`
 - Table name: `任务` (historical table name; treat each row as a `工作项`)
 - Table id: `tbldFwiuV4K0l2Lp`
@@ -57,7 +57,7 @@ When this skill is triggered from another repo, use the Feishu location above as
 
 For broader Feishu placement decisions such as whether something belongs in work items, sticky notes, project notes, visible workspace entries, or backing Drive storage, use the `personal-feishu-interface` skill first. This skill only owns work-item records and work-item-oriented progress sync.
 
-When the user explicitly says "记一个笔记", "记个想法", "记录一下", "随手记一下", or describes a loose thought, use `personal-feishu-interface` and write to `日常记录工作台 / Notes` instead of this work-item table. When the user says "记一个代办", "加个任务", "加个工作项", "这个要做", or gives a clear follow-up/deadline, use this work-item workflow. If the wording is ambiguous, ask whether it is a note or a work item.
+When the user explicitly says "记一个笔记", "记个想法", "记录一下", "随手记一下", or describes a loose thought, use `personal-feishu-interface` and write to `日常笔记 / Notes` instead of this work-item table. When the user says "记一个代办", "加个任务", "加个工作项", "这个要做", or gives a clear follow-up/deadline, use this work-item workflow. If the wording is ambiguous, ask whether it is a note or a work item.
 
 ## Capture Rules
 
@@ -92,6 +92,8 @@ When the user describes a project or code workspace but is uncertain about the e
 - `备注`: Human notes area. Leave blank by default unless the user explicitly gives a note meant to remain as a human note.
 - `Agent 工作区`: Store all Agent-authored working context: objective parsing, import/migration records, quick-scan evidence, current judgment, progress sync notes, next-step decomposition, uncertainty, and handoff notes for future Agent work.
 
+Before updating `Agent 工作区` on an existing row, read the current field value and append or merge a dated section. Do not overwrite existing Agent context unless the user explicitly asks for replacement.
+
 ## Operating Modes
 
 ### Manage Work Item
@@ -103,7 +105,7 @@ Default behavior:
 1. Parse the user's description into the Feishu work-item fields.
 2. Inspect lightweight project context when useful: `pwd`, git remote, branch, and obvious README/TODO files.
 3. Ask only for fields that block a useful record.
-4. Create or update the row in `日常任务工作台 / 任务`.
+4. Create or update the row in `日常工作项 / 任务`.
 5. Put the user's wording in `用户原话` and all Agent-authored parsing/quick-scan/continuation context in `Agent 工作区`.
 6. Report what was recorded and which assumptions were made.
 
@@ -132,7 +134,7 @@ Default behavior:
    - If exactly one strong candidate matches, update that work item.
    - If several plausible candidates remain, ask the user which one to use.
    - If none match, ask whether to create a new work item or leave the snapshot local to the conversation.
-6. Summarize into `Agent 工作区`:
+6. Read the existing `Agent 工作区`, then append or merge a dated progress section:
    - completed or current state
    - unresolved questions or blockers
    - next action

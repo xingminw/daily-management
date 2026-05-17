@@ -23,12 +23,14 @@ config/ = Feishu workspace configuration
 
 This repo's skills are personal global skills for this user's Feishu workspace. `skills/personal-feishu-interface` owns the user's broader Feishu placement rules: visible entries in `我的文档库`, backing storage in Drive, sticky notes, project notes, and cross-linking. `skills/daily-manager` owns the work-item Base and work-item-oriented progress sync. These skills may include concrete Feishu entrypoints and current field names so they can work from other projects without rediscovery. Keep lower-level CLI runbooks and repo maintenance rules in `docs/`, `automations/`, `scripts/`, or `config/`.
 
+Visible workspaces such as `日常工作项` and `日常笔记` must remain user-facing entries in `我的文档库` or their native Feishu document/wiki surfaces. Do not create Drive shortcuts to these workspaces inside the backing storage folder. Drive is only for materials, attachments, exports, screenshots, generated assets, and other background files.
+
 ## Primary Objects
 
-- Main tracker: `日常任务工作台` Base.
+- Main tracker: `日常工作项` Base.
 - Main work-item table: `任务` (historical table name; each row is a `工作项`).
-- Recommended notes entry: `日常记录工作台`, visible from `我的文档库`.
-- Notes are a separate subject in `日常记录工作台`; they can link to one or more work items.
+- Recommended notes entry: `日常笔记`, visible from `我的文档库`.
+- Notes are a separate subject in `日常笔记`; they can link to one or more work items.
 - Config file: `config/lark_daily_workspace.json`.
 
 ## What The Agent Can Do
@@ -45,6 +47,7 @@ This repo's skills are personal global skills for this user's Feishu workspace. 
 
 - Do not make GitHub Issues the default daily work-item system.
 - Do not create scattered work-item docs outside the configured Feishu workspace.
+- Do not put visible workspace entrances or shortcuts into the Drive backing folder.
 - Do not delete Feishu records, documents, or files without explicit confirmation.
 - Do not overwrite long work-item notes or Feishu documents without reading the current content first.
 - Do not over-model status. The default statuses are `待办`, `进行中`, `等待`, and `完成`.

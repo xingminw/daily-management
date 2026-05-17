@@ -31,16 +31,22 @@ Use two layers:
 - Visible entry layer: things the user should directly open from `我的文档库`.
 - Backing storage layer: Feishu Drive folders for assets, attachments, generated files, raw materials, exports, and project files.
 
-Do not make Drive folders the primary daily entry unless the user explicitly asks. The user-facing things should be visible as workspaces, docs, Bases, or index pages in `我的文档库`.
+Do not make Drive folders the primary daily entry unless the user explicitly asks. The user-facing things should be visible as workspaces, docs, Bases, or index pages in `我的文档库`. Do not put visible workspace entrances or Drive shortcuts to those entrances inside backing storage folders.
 
 ## Current Known Entries
 
-- `日常任务工作台`: visible Base entry for work items: projects, papers, administrative matters, code efforts, reviews, status, timeline, importance, next action, tags, external links, and Feishu links. The current table is named `任务`, but each row should be treated as a `工作项`.
-- `日常记录工作台`: visible Base entry for sticky notes, daily notes, random ideas, meeting notes, and non-actionable work fragments.
+- `日常工作项`: visible Base entry for work items: projects, papers, administrative matters, code efforts, reviews, status, timeline, importance, next action, tags, external links, and Feishu links. The current table is named `任务`, but each row should be treated as a `工作项`.
+  - Wiki entry: `https://www.feishu.cn/wiki/TwLCwijKki0Q9VkDiaMcP7GKnAg`
+  - Base token: `F9p4bjm24axBY8sd8macJIySnYe`
+  - URL: `https://my.feishu.cn/base/F9p4bjm24axBY8sd8macJIySnYe`
+  - Main table: `任务` (`tbldFwiuV4K0l2Lp`)
+- `日常笔记`: visible Base entry for sticky notes, daily notes, random ideas, meeting notes, and non-actionable work fragments.
   - Base token: `FGyobSwcpaxVWjspWRRcs2xGnac`
   - URL: `https://my.feishu.cn/base/FGyobSwcpaxVWjspWRRcs2xGnac`
   - Main table: `Notes` (`tblvDv4i88wCOaAn`)
-  - Backing materials folder: `日常记录材料` (`https://my.feishu.cn/drive/folder/XZDKfLFr1lYkXFdjjdkcYTGZndc`)
+- Backing Drive folder: `日常管理材料` (`https://my.feishu.cn/drive/folder/Y8DkfIkNLlMfuhdIn31c6Mm4n2e`)
+  - Work-item materials: `工作项材料` (`https://my.feishu.cn/drive/folder/Y1tefkAYXl8ZSXdYbJFc0HiDn7f`)
+  - Notes materials: `笔记材料` (`https://my.feishu.cn/drive/folder/XZDKfLFr1lYkXFdjjdkcYTGZndc`)
 
 The daily work-item system details live in `daily-manager`. Use that skill when the artifact is a work item, work-item update, project progress sync, or daily/weekly work-item review.
 
@@ -48,10 +54,11 @@ The daily work-item system details live in `daily-manager`. Use that skill when 
 
 Choose the artifact type by intent:
 
-- Work item or follow-up: write to `日常任务工作台`.
-- Random idea, scratch note, meeting note, observation, reading note, or loose thought: write to `日常记录工作台`.
+- Work item or follow-up: write to `日常工作项`.
+- Random idea, scratch note, meeting note, observation, reading note, or loose thought: write to `日常笔记`.
 - Long project context, drafts, references, or multi-round notes for one project: create or update a project note/index and link it from relevant tasks.
 - Files, images, covers, exports, raw assets, and generated artifacts: store in Feishu Drive backing folders and link from the visible entry when useful.
+- Workspace entrances or shortcuts: keep out of Drive backing folders; use `我的文档库` or the native Feishu document/wiki surface as the entrance.
 
 Do not promote every note into a work item. Promote only when the user clearly asks or when there is already a clear object to advance with a next action, deadline, owner, or follow-up need.
 
@@ -60,7 +67,7 @@ Do not promote every note into a work item. Promote only when the user clearly a
 Default notes organization should stay simple. The first version is a Base table, one note per record, not one document per day:
 
 ```text
-日常记录工作台
+日常笔记
   Notes
     全部记录
     今天
@@ -131,6 +138,7 @@ When organizing entries:
 2. Prefer one visible entry per repeated user workflow.
 3. Use backing Drive folders for storage, not navigation.
 4. Avoid scattered standalone docs without an index or visible entry.
+5. Do not create Drive shortcuts for `日常工作项` or `日常笔记` inside backing folders.
 
 ## Safety
 

@@ -11,6 +11,6 @@ Codex automation definitions may live outside the repo under `~/.codex/automatio
 
 ## Rules
 
-- Feishu Base `日常任务工作台` remains the business state source.
+- Feishu Base `日常工作项` remains the business state source.
 - This repo stores reproducible operating instructions, scripts, fixtures, and skill rules.
 - Ambiguous inputs should be skipped or marked as uncertain, not guessed.
