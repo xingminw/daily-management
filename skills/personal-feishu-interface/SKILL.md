@@ -50,7 +50,11 @@ Do not make Drive folders the primary daily entry unless the user explicitly ask
   - Work-item materials: `工作项材料` (`https://my.feishu.cn/drive/folder/Y1tefkAYXl8ZSXdYbJFc0HiDn7f`)
   - Notes materials: `笔记材料` (`https://my.feishu.cn/drive/folder/XZDKfLFr1lYkXFdjjdkcYTGZndc`)
 
-The daily work-item system details live in `daily-manager`. Use that skill when the artifact is a work item, work-item update, project progress sync, or daily/weekly work-item review.
+## Relationship With Daily Manager
+
+This skill decides placement first. If the artifact is a work item, hand off to `daily-manager` and its `日常工作项 / 任务` field rules. If it is a note, keep it in `日常笔记 / Notes`. If it is a file/material, store it in the backing Drive materials area and link from the relevant visible entry when useful.
+
+Do not duplicate work-item field rules here. Use `daily-manager` for status, importance, deadlines, next actions, external links, `飞书链接`, `原始附件`, and `Agent 工作区` updates.
 
 ## Placement Rules
 

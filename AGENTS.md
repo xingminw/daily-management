@@ -10,7 +10,7 @@ The important boundary is:
 docs/ = current Feishu workflow and repo operating rules
 automations/ = runnable Agent process specs for this workflow
 skills/ = portable personal Feishu interface and daily work-item management behavior
-scripts/ = executable tools for the current Feishu workflow
+scripts/ = repo-local maintenance helpers, especially skill sync
 config/ = Feishu workspace configuration
 ```
 
@@ -37,11 +37,12 @@ Visible workspaces such as `日常工作项` and `日常笔记` must remain user
 
 - Capture work items from the current conversation or project context.
 - Capture daily notes, sticky notes, random ideas, meeting notes, and project notes into the appropriate visible Feishu entry when asked.
-- Create or update Feishu work-item records through repo scripts.
+- Create or update Feishu work-item records through `lark-cli`, using repo config and skills as the operating rules.
 - Link a work item to a project, file, document, email, meeting, or conversation summary.
 - Maintain the work item's status, importance, timeline, tags, next action, external links, Feishu link, and Agent workspace.
 - Summarize daily or weekly task state.
 - Maintain repo docs, automation specs, scripts, config, and skill source when asked.
+- After editing `skills/`, run `scripts/sync_skills.sh` to update the installed Codex and Hermes skill copies.
 
 ## What The Agent Should Not Do
 

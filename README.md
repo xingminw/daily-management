@@ -21,7 +21,7 @@ repo = Agent 能力和运行规范的来源
 - `docs/`：当前 Feishu-first 日常管理系统的工作流说明。
 - `skills/`：跨项目可用的个人飞书接口和日常任务管理 skill。
 - `automations/`：Agent 定时或触发式流程规范。
-- `scripts/`：落实飞书操作的工具脚本。
+- `scripts/`：repo 本地维护脚本；当前主要用于同步 skill。日常飞书写入仍由 Agent 按配置调用 `lark-cli`。
 - `config/`：飞书工作区配置模板和字段映射。
 
 ## 当前阶段
@@ -42,5 +42,5 @@ repo = Agent 能力和运行规范的来源
 1. `AGENTS.md`
 2. `docs/feishu-workspace.md`
 3. `docs/workflow.md`
-4. 涉及飞书入口、notes、项目资料组织时读 `skills/personal-feishu-interface/SKILL.md`
-5. 需要跨项目捕获任务时再读 `skills/daily-manager/SKILL.md`
+4. 涉及飞书入口、notes、项目资料组织时先读 `skills/personal-feishu-interface/SKILL.md`
+5. 确认要进入工作项系统后再读 `skills/daily-manager/SKILL.md`

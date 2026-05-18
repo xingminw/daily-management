@@ -54,7 +54,11 @@ The daily-assistant repo stores:
 
 When this skill is triggered from another repo, use the Feishu location above as the global work-item system. The current repo is only the source context.
 
-For broader Feishu placement decisions such as whether something belongs in work items, sticky notes, project notes, visible workspace entries, or backing Drive storage, use the `personal-feishu-interface` skill first. This skill only owns work-item records and work-item-oriented progress sync.
+## Relationship With Personal Feishu Interface
+
+`personal-feishu-interface` is the upstream routing skill. Use it first when the user asks where something belongs in Feishu, when the input may be a note rather than a work item, or when visible entries, backing Drive storage, project notes, or personal Feishu organization are involved.
+
+This skill is the work-item executor after routing has decided the artifact belongs in `日常工作项`. It owns row creation/update, project progress sync, status, importance, deadlines, next actions, external links, `飞书链接`, `原始附件`, and `Agent 工作区` rules.
 
 When the user explicitly says "记一个笔记", "记个想法", "记录一下", "随手记一下", or describes a loose thought, use `personal-feishu-interface` and write to `日常笔记 / Notes` instead of this work-item table. When the user says "记一个代办", "加个任务", "加个工作项", "这个要做", or gives a clear follow-up/deadline, use this work-item workflow. If the wording is ambiguous, ask whether it is a note or a work item.
 

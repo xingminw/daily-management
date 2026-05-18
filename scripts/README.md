@@ -1,11 +1,11 @@
 # Scripts
 
-This directory will hold executable helpers for the current Feishu workflow.
+This directory holds repo-local maintenance helpers.
 
-Planned scripts:
+## Available Scripts
 
-- `lark_create_task.py`: create one task in `日常工作项`.
-- `lark_update_task.py`: update status, timeline, next action, notes, external links, Feishu link, import record, or Agent workspace.
-- `lark_find_tasks.py`: search tasks by title, tag, status, source, or due date.
+- `sync_skills.sh`: syncs `skills/daily-manager` and `skills/personal-feishu-interface` from this repo into the installed Codex and Hermes skill locations on this machine.
 
-Scripts should read `config/lark_daily_workspace.json`, which should be created locally from `config/lark_daily_workspace.example.json` after the real Feishu Base is created.
+## Boundary
+
+This repo currently does not keep Feishu record CRUD wrappers. Day-to-day Feishu writes should use `lark-cli` directly, guided by `config/lark_daily_workspace.json` and the skills. Add CRUD scripts only after the same operation becomes repetitive enough to justify a stable helper.
