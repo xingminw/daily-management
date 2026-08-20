@@ -1,0 +1,58 @@
+# connections.yaml — 外部连接清单
+# 每个连接：用什么工具、什么状态、怎么检查健康。凭据永不进 repo。
+
+connections:
+
+  - name: feishu
+    description: 个人飞书 = AI 中枢（日历/待办/云盘/文档/消息/工作项Base/素材笔记）
+    tool: lark-cli
+    version: ">=1.0.87"
+    auth: user identity (Xingmin Wang) + bot identity，设备流 OAuth
+    status: connected
+    health_check: lark-cli doctor
+    scopes: calendar,task,mail,drive,docs,sheets,im,approval,minutes,note,vc,wiki
+    scope_gaps: base（读多维表记录需补授权：lark-cli auth login --domain base）
+    notes: 邮箱功能未开通（15180001），开通后才能挂 @zju.edu.cn
+
+  - name: dingtalk
+    description: 学校钉钉 = 仅客户端手工使用（考勤/审批/教务通知）
+    tool: dws CLI v1.0.58
+    auth: 未登录，且登录被组织授权名单拦截（"您不在该组织的 CLI 授权人员范围内"）
+    status: blocked
+    notes: |
+      已验证死路：dws / WorkBuddy dingtalk connector（同一套 OAuth 同一面墙）/
+      官方 dingtalk-mcp（需学校管理员审批装进组织）。
+      Webhook 自定义机器人可单向推消息，但读不了日历/待办/邮件，暂不启用。
+      若未来学校开放 CLI 授权名单，重新评估。
+
+  - name: school-email
+    description: 学校邮箱 @zju.edu.cn（2026年9月报到后启用）
+    status: pending
+    plan: |
+      优先：飞书邮箱开通后添加外部账户（若学校邮箱是腾讯企业邮托管，大概率可成）。
+      兜底：标准 IMAP/SMTP + TLS。
+      最后手段：网页自动化。
+
+  - name: tencent-meeting
+    description: 腾讯会议（会议查询/创建，日程可同步到飞书）
+    tool: tmeet CLI（WorkBuddy connector 安装）
+    status: connected
+    health_check: tmeet auth status
+    notes: AccessToken ~6h 过期，RefreshToken 30 天；过期后 tmeet auth login 重新授权
+    playbook: docs/playbooks/tencent-meeting-sync.md
+
+  - name: daytrace
+    description: 个人工作痕迹系统（采集 AI 工具信号→SQLite→每日叙事，跑在 Mac mini）
+    repo: https://github.com/xingminw/daytrace
+    status: registered-only
+    notes: |
+      运行系统（launchd+SQLite+采集器），不并入本 repo。
+      它镜像两张飞书 Base：日常工作项(任务表) + Paper Reviews(审稿)，
+      配置在其 repo 的 config/work_items.yaml（gitignored）。
+      本 repo 只做注册和运维手册，不接管其运行。
+
+  - name: github
+    description: 代码与文档远端（SSH key 认证）
+    status: connected
+    health_check: ssh -T git@github.com
+    repos: xingminw/{daily-management, paper-review, my-profile, daily-assistant, daytrace}

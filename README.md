@@ -1,46 +1,42 @@
-# Daily Assistant
+# Daily Management
 
-这是一个 Feishu-first 的日常工作项管理与 Agent 协作仓库。
+个人日常事务管理与外部工具连接中枢（原 daily-assistant 已于 2026-08-20 并入）。
 
-它的重点不是把工作项写成本地 Markdown，也不是把 GitHub Issues 当作主工作项系统，而是保存一套可复现的 Agent 能力：飞书组织结构、个人飞书入口规则、工作项捕获规则、自动化流程、脚本、配置和全局 skill。
+**架构一句话**：个人飞书 = AI 中枢（经 lark-cli 操作），钉钉 = 仅客户端手工用，学校邮箱 9 月接入；本 repo 保存工作流规则、playbook、连接清单与决策记录——纯文档与配置，零代码，零凭据。
 
 ## 核心关系
 
 ```text
-飞书 = 日常工作项状态和 notes 的主界面
-人 = 最终判断者，负责决定优先级、时间线和取舍
-Agent = 捕获上下文、管理工作项、记录 notes、更新状态、整理每日/每周回顾
-repo = Agent 能力和运行规范的来源
+飞书 = 日常工作项 / 待办 / 素材笔记 / 日程 / 云档的主界面，唯一业务状态源
+人 = 最终判断者，负责优先级、时间线和取舍
+Agent = 捕获上下文、管理工作项与待办、记录 notes、同步日程、出每日摘要
+repo = Agent 能力和运行规范的来源（任何 agent 读 AGENTS.md 即可接管）
 ```
 
-飞书中的 `日常工作项` Base 是工作项入口。当前表名仍叫 `任务`，但每一行按 `工作项` 理解：论文、项目、行政事项、代码工作或其他需要推进的对象。每条工作项可以记录最多三个可点击外部链接；飞书内部材料入口只在确实存在时写入 `飞书链接`。更上层的个人飞书入口规则由 `personal-feishu-interface` skill 维护：用户常看的入口放在 `我的文档库`，云盘只放底层材料和资产，不放用户入口或入口快捷方式。
+## 任务分层（决策 D3）
+
+| 层 | 载体 | 放什么 |
+|---|---|---|
+| 项目管理 | `日常工作项` Base | 跨会话推进、进周报的对象（论文/项目/行政事项） |
+| 细碎小事 | 飞书待办（task） | 半小时内一次性能干完的事 |
+| 笔记 | `素材笔记` Base | 想法、会议片段（独立主体） |
+| 日程 | 飞书日历 | 时间安排（含腾讯会议同步） |
 
 ## 目录职责
 
-- `AGENTS.md`：Agent 进入这个仓库时的快速规则。
-- `docs/`：当前 Feishu-first 日常管理系统的工作流说明。
-- `skills/`：跨项目可用的个人飞书接口和日常任务管理 skill。
-- `automations/`：Agent 定时或触发式流程规范。
-- `scripts/`：repo 本地维护脚本；当前主要用于同步 skill。日常飞书写入仍由 Agent 按配置调用 `lark-cli`。
-- `config/`：飞书工作区配置模板和字段映射。
-
-## 当前阶段
-
-第一阶段先固定飞书组织结构和 Agent 行为边界：
-
-1. 使用一个全局 Base 管理工作项状态。
-2. 使用精简状态：`待办`、`进行中`、`等待`、`完成`。
-3. 每条工作项保留来源、时间线、重要程度、标签、外部链接、必要的飞书内部链接和下一步动作。
-4. 建立个人飞书接口规则：可见入口放在 `我的文档库`，云盘只作为材料存储层，不放入口快捷方式。
-5. 通过全局 skill 让其他项目中的 Agent 会话也能把工作项和 notes 组织回同一个飞书系统。
-6. Notes 是独立主体，进入 `日常笔记`；它可以关联一个或多个工作项，但不并入工作项表。
+- `AGENTS.md`：Agent 入口（任何 agent 框架自动读取）
+- `docs/decisions.md`：决策记录——改架构前先读
+- `docs/feishu-workspace.md` + `docs/workflow.md`：飞书组织结构与工作流
+- `docs/playbooks/`：场景手册（日历/待办/邮箱/会议同步/每日摘要/诊断）
+- `skills/`：跨项目 skill（daily-manager、personal-feishu-interface）
+- `automations/`：定时/触发式流程规范
+- `scripts/`：skill 同步等维护脚本
+- `config/connections.yaml`：外部连接清单与健康检查
+- `config/lark_daily_workspace.json`：真实 token 配置（gitignored）
 
 ## 新会话入口
 
-新的 Agent 会话应该先读：
-
 1. `AGENTS.md`
-2. `docs/feishu-workspace.md`
-3. `docs/workflow.md`
-4. 涉及飞书入口、notes、项目资料组织时先读 `skills/personal-feishu-interface/SKILL.md`
-5. 确认要进入工作项系统后再读 `skills/daily-manager/SKILL.md`
+2. `config/connections.yaml`（当前连了什么、什么状态）
+3. 干具体活时按场景查 `docs/playbooks/`
+4. 涉及工作项系统再读 `docs/workflow.md` + `skills/daily-manager/SKILL.md`

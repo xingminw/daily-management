@@ -7,12 +7,27 @@ This repo defines a Feishu-first daily work-item management workflow and keeps t
 The important boundary is:
 
 ```text
-docs/ = current Feishu workflow and repo operating rules
+docs/ = Feishu workflow, decisions, and scenario playbooks
+docs/playbooks/ = per-scenario command runbooks (calendar/tasks/mail/meeting-sync/daily-brief/doctor)
+docs/decisions.md = why things are the way they are (read before changing architecture)
 automations/ = runnable Agent process specs for this workflow
 skills/ = portable personal Feishu interface and daily work-item management behavior
 scripts/ = repo-local maintenance helpers, especially skill sync
-config/ = Feishu workspace configuration
+config/ = Feishu workspace configuration + connections.yaml (external tool inventory)
 ```
+
+## Platform Architecture (2026-08-20)
+
+- Personal Feishu is the AI hub (calendar, tasks, drive, docs, messages, work-item Base, notes Base). Operate it via `lark-cli` (user identity).
+- School DingTalk is client-only for the user; agent access is blocked by org authorization (decisions.md D1). Do not attempt DingTalk integration.
+- Tencent Meeting via `tmeet` CLI; sync its schedules into the Feishu calendar (docs/playbooks/tencent-meeting-sync.md).
+- School email @zju.edu.cn pending (Sept 2026, decisions.md D2).
+- Connection inventory and health checks: `config/connections.yaml`. Troubleshooting: `docs/playbooks/doctor.md`.
+
+## Task Layering (decisions.md D3)
+
+- Work items (multi-session, report-worthy) → `日常工作项` Base.
+- Small one-shot errands (<30 min) → Feishu Tasks (待办). Rule of thumb: "would this appear in a weekly report?"
 
 ## Source Of Truth
 
