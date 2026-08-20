@@ -1,3 +1,17 @@
+# credentials & secrets
+config/lark_daily_workspace.json
+
+# macOS junk
 .DS_Store
 ._*
+
+# session memory (local only)
 .workbuddy/
+
+# python
+__pycache__/
+*.pyc
+.tmp/
+
+# temp auth artifacts
+feishu-auth-qr*.png

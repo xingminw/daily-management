@@ -1,0 +1,70 @@
+{
+  "base": {
+    "name": "日常工作项",
+    "token": "",
+    "wiki_node_token": "",
+    "wiki_entry_url": "",
+    "wiki_entry_doc_token": "",
+    "table_id": "",
+    "table_name": "任务"
+  },
+  "notes_base": {
+    "name": "日常笔记",
+    "token": "",
+    "wiki_node_token": "",
+    "wiki_entry_url": "",
+    "table_id": "",
+    "table_name": "Notes",
+    "url": ""
+  },
+  "drive": {
+    "workspace_folder_name": "日常管理材料",
+    "workspace_folder_token": "",
+    "workspace_folder_url": "",
+    "task_docs_folder_name": "工作项材料",
+    "task_docs_folder_token": "",
+    "task_docs_folder_url": "",
+    "notes_materials_folder_name": "笔记材料",
+    "notes_materials_folder_token": "",
+    "notes_materials_folder_url": ""
+  },
+  "notes_fields": {
+    "title": "标题",
+    "date": "日期",
+    "type": "类型",
+    "tags": "标签",
+    "body": "正文 / 用户原话",
+    "linked_work_items": "关联工作项",
+    "feishu_link": "飞书链接",
+    "external_link_1": "外部链接 1",
+    "external_link_2": "外部链接 2",
+    "external_link_3": "外部链接 3",
+    "raw_attachment": "原始附件",
+    "agent_workspace": "Agent 工作区"
+  },
+  "fields": {
+    "title": "任务",
+    "status": "状态",
+    "importance": "重要程度",
+    "due": "截止时间",
+    "next_time": "下一步时间",
+    "next_action": "下一步动作",
+    "tags": "标签",
+    "source": "项目来源",
+    "external_link_1": "外部链接 1",
+    "external_link_2": "外部链接 2",
+    "external_link_3": "外部链接 3",
+    "user_input": "用户原话",
+    "notes": "备注",
+    "created_from": "创建来源",
+    "weekly_commitment": "每周预计投入",
+    "completed_at": "完成时间",
+    "agent_workspace": "Agent 工作区",
+    "raw_attachment": "原始附件",
+    "feishu_link": "飞书链接"
+  },
+  "status_options": ["待办", "进行中", "等待", "完成"],
+  "importance_options": ["P0", "P1", "P2", "P3"],
+  "default_tags": ["paper", "code", "admin", "writing", "meeting", "personal"],
+  "note_type_options": ["idea", "meeting", "progress", "reference", "decision", "question", "personal"]
+}
