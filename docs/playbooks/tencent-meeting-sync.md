@@ -29,13 +29,20 @@ lark-cli calendar +create \
 
 （由 daily-management 同步自腾讯会议）"
 
-# 4. 复核
+# 4. （推荐）把日程的视频会议入口替换成腾讯会议链接
+# +create 会自动挂一个飞书 VC（vc.feishu.cn/j/...），且 vchat:null 删不掉。
+# 正确解法：events patch 改成 third_party 类型，日历上的"视频会议"按钮直接跳腾讯会议：
+lark-cli calendar events patch --as user \
+  --calendar-id "<organizer_calendar_id>" --event-id "<event_id>" \
+  --data '{"vchat": {"vc_type": "third_party", "meeting_url": "<join_url>", "description": "腾讯会议 <meeting_code>"}}'
+
+# 5. 复核
 lark-cli calendar +agenda --start "<当日00:00>" --end "<当日23:59>"
 ```
 
 ## 约定
 
 - 描述里必须含会议号（meeting_code）和入会链接（join_url）；**严禁出现 meeting_id**（隐私字段）。
-- 飞书自动附带的 VC 链接不是入会入口，认 description 里腾讯链接。
+- 第 4 步执行后，日程的视频会议入口即腾讯会议；未执行时飞书自动附带的 VC 链接不是入会入口，认 description 里腾讯链接。
 - 会议时间变更：tmeet 侧改完后，删除旧日程（需用户确认）再重建，或直接 `calendar +update`。
 - 已结束会议的录制/纪要查询：先读 tmeet skill 的 references/tmeet-record.md（路由规则复杂）。
