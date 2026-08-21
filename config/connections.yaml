@@ -26,12 +26,19 @@ connections:
       若未来学校开放 CLI 授权名单，重新评估。
 
   - name: school-email
-    description: 学校邮箱 @zju.edu.cn（2026年9月报到后启用）
-    status: pending
-    plan: |
-      优先：飞书邮箱开通后添加外部账户（若学校邮箱是腾讯企业邮托管，大概率可成）。
-      兜底：标准 IMAP/SMTP + TLS。
-      最后手段：网页自动化。
+    description: 学校邮箱 @zju.edu.cn（Coremail 自建系统；主账号 0026177@zju.edu.cn，别名 xingminw@zju.edu.cn）
+    tool: skills/zju-mail/zju_mail.py（repo 内统一 wrapper，纯标准库 IMAP/SMTP）
+    status: connected（2026-08-21 实测：IMAP 登录/收件 ✅，SMTP 认证 ✅）
+    credentials: macOS Keychain service zju-mail（account=0026177@zju.edu.cn，password=客户端专用密码；凭据永不进 repo）
+    health_check: python3 skills/zju-mail/zju_mail.py test
+    playbook: skills/zju-mail/SKILL.md
+    notes: |
+      浙大邮箱是 Coremail 自建、开标准 IMAP/SMTP（imap.zju.edu.cn:993 /
+      smtp.zju.edu.cn:994 SSL），无现成 connector，故走 repo 内 wrapper 直连
+      （决策 D7）。二次验证默认开启：IMAP/SMTP 必须用网页端生成的"客户端
+      专用密码"（可按设备建多条，独立于网页密码），不是 VPN/上网密码。
+      服务器支持 UIDPLUS（draft 返回 uid）。文件夹：INBOX/Drafts/
+      Sent Items/Trash/Junk E-mail/Virus Items。改 skill 后跑 scripts/sync_skills.sh。
 
   - name: tencent-meeting
     description: 腾讯会议（会议查询/创建，日程可同步到飞书）

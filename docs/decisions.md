@@ -56,3 +56,15 @@
 **结论**：外接 SSD（1.8TB）格式化 APFS，纯 Mac 生态使用。
 
 **依据**：实测小文件创建 exFAT 比 APFS 慢约 16 倍；exFAT 无 journaling 是"弹出后不识别"老毛病根源；exFAT 每文件 512KB~1MB 分配块（my-profile 129 个 552K 的文件占 153M）；`._*` AppleDouble 噪音。Windows 兼容已非真实需求。迁移前所有 repo 已推 GitHub + 双备份（Desktop/ssd 全量 + ~/SSD-backup-20260820）。
+
+## D7 · 浙大邮箱接入：repo 内统一 wrapper，不走 connector（2026-08-21）
+
+**结论**：浙大邮箱（@zju.edu.cn，Coremail 自建）通过本 repo `skills/zju-mail/` 的统一 wrapper（`zju_mail.py`，纯标准库，IMAP `imap.zju.edu.cn:993` / SMTP `smtp.zju.edu.cn:994`，SSL）接入；凭据只存 macOS Keychain（service `zju-mail`，account=邮箱地址）。
+
+**依据**：
+- 连接器市场无 Coremail/自建邮箱 connector（网易只管 163/126，腾讯系只管 QQ/腾讯企业邮）。
+- 原计划首选"飞书邮箱挂外部账户"依赖腾讯托管假设，实测浙大是 Coremail 自建；且飞书个人版邮箱功能未开通（15180001），该路线暂缓（不废弃，开通后可再评估）。
+- 浙大邮箱开标准 IMAP/SMTP，直连无障碍，邮件客户端同款协议。
+- 用户明确要求代码集中进本 repo 成为一体 wrapper，不再散落别处；这是对 D4"不写适配器代码"的窄化修订：允许 skill 配套脚本进 repo，凭据仍永不进 repo。
+
+**影响**：`skills/zju-mail/` 是唯一源，`scripts/sync_skills.sh` 同步到 codex/hermes/workbuddy 各 skill 目录（同步脚本改为拷贝整个 skill 目录）；发信须先向用户确认完整收件人/主题/正文（对齐 QQ 邮箱技能的两阶段确认规则）。
