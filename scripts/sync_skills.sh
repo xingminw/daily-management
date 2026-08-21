@@ -27,6 +27,7 @@ install_skill() {
 
 install_skill "daily-manager"
 install_skill "personal-feishu-interface"
+install_skill "calendar-sync"
 
 # Hermes rebuilds this snapshot on demand; clearing it prevents stale skill text.
 rm -f "$HOME/.hermes/profiles/ds/.skills_prompt_snapshot.json"
