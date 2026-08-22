@@ -11,7 +11,7 @@ docs/ = Feishu workflow, decisions, and scenario playbooks
 docs/playbooks/ = per-scenario command runbooks (calendar/tasks/mail/meeting-sync/daily-brief/doctor)
 docs/decisions.md = why things are the way they are (read before changing architecture)
 automations/ = runnable Agent process specs for this workflow
-skills/ = portable personal skills: Feishu interface, daily work-item management, and the ZJU email (IMAP/SMTP) wrapper
+skills/ = portable personal skills: Feishu interface, daily work-item management, and the personal mailbox (IMAP/SMTP) wrapper
 scripts/ = repo-local maintenance helpers, especially skill sync
 config/ = Feishu workspace configuration + connections.yaml (external tool inventory)
 ```
@@ -21,7 +21,7 @@ config/ = Feishu workspace configuration + connections.yaml (external tool inven
 - Personal Feishu is the AI hub (calendar, tasks, drive, docs, messages, work-item Base, notes Base). Operate it via `lark-cli` (user identity).
 - School DingTalk is client-only for the user; agent access is blocked by org authorization (decisions.md D1). Do not attempt DingTalk integration.
 - Tencent Meeting via `tmeet` CLI; sync its schedules into the Feishu calendar (docs/playbooks/tencent-meeting-sync.md).
-- School email @zju.edu.cn (Coremail self-hosted) runs through the repo wrapper `skills/zju-mail/zju_mail.py` (IMAP/SMTP, credentials in macOS Keychain, decisions.md D7). No connector exists for it.
+- Personal mailboxes run through the repo wrapper `skills/personal-mail/mail.py -p zju|qq` (IMAP/SMTP, credentials in macOS Keychain, decisions.md D7/D8). ZJU has no connector (wrapper is the only channel); QQ has an official connector for daily read/send, wrapper covers what it lacks (drafts, flags/labels, any folder, big attachments).
 - Connection inventory and health checks: `config/connections.yaml`. Troubleshooting: `docs/playbooks/doctor.md`.
 
 ## Task Layering (decisions.md D3)
@@ -56,7 +56,7 @@ Visible workspaces such as `日常工作项` and `日常笔记` must remain user
 - Link a work item to a project, file, document, email, meeting, or conversation summary.
 - Maintain the work item's status, importance, timeline, tags, next action, external links, Feishu link, and Agent workspace.
 - Summarize daily or weekly task state.
-- Read, search, and download attachments from the ZJU mailbox via `skills/zju-mail/zju_mail.py`; sending requires explicit user confirmation first (rules in skills/zju-mail/SKILL.md).
+- Read, search, and download attachments from personal mailboxes via `skills/personal-mail/mail.py -p zju|qq`; drafts and flag/label changes are light writes (execute on request, report result); sending requires explicit user confirmation first (rules in skills/personal-mail/SKILL.md).
 - Maintain repo docs, automation specs, scripts, config, and skill source when asked.
 - After editing `skills/`, run `scripts/sync_skills.sh` to update the installed Codex, Hermes, and WorkBuddy skill copies.
 

@@ -68,3 +68,14 @@
 - 用户明确要求代码集中进本 repo 成为一体 wrapper，不再散落别处；这是对 D4"不写适配器代码"的窄化修订：允许 skill 配套脚本进 repo，凭据仍永不进 repo。
 
 **影响**：`skills/zju-mail/` 是唯一源，`scripts/sync_skills.sh` 同步到 codex/hermes/workbuddy 各 skill 目录（同步脚本改为拷贝整个 skill 目录）；发信须先向用户确认完整收件人/主题/正文（对齐 QQ 邮箱技能的两阶段确认规则）。
+
+## D8 · wrapper 泛化为 personal-mail，QQ 邮箱双通道（2026-08-22）
+
+**结论**：D7 的 zju wrapper 泛化为多邮箱统一 wrapper `skills/personal-mail/mail.py`（`-p zju|qq` 选邮箱，provider 配置内置，凭据按邮箱分存 Keychain：`zju-mail` / `qq-mail`）；`skills/zju-mail/` 退役。QQ 邮箱采用**双通道分工**：官方 connector（OAuth）管日常读/发/搜/附件/转发，wrapper 补 connector 没有的能力（draft 存草稿、mark 标签/星标/已读、任意文件夹访问、大附件发送——connector 限 3 附件共 3MB）。
+
+**依据**：
+- 用户要求 QQ 邮箱也能存草稿/打标签，而 QQ 官方 connector 工具集没有这些操作，文件夹也只暴露 inbox/sent/trash/spam 四个。
+- QQ 邮箱支持标准 IMAP/SMTP（imap.qq.com:993 / smtp.qq.com:465 SSL），需网页端开启服务并用 16 位授权码（与浙大客户端专用密码同机制）。
+- 复用同一个 wrapper 而非每个邮箱复制一份脚本，避免 500 行代码 ×N 份的维护负担；用户明确偏好"一体 wrapper，不要弄成别的"。
+
+**影响**：QQ 授权码待用户网页端生成后存 Keychain service `qq-mail`，跑 `mail.py -p qq test` 收尾；zju 通道行为不变（回归通过）。浙大邮箱仍只有 wrapper 一条通道。

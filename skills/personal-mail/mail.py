@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
-"""zju-mail — ZJU (@zju.edu.cn, Coremail) mailbox wrapper over IMAP/SMTP.
+"""personal-mail — unified IMAP/SMTP wrapper for personal mailboxes.
 
-Credentials never live in this repo:
-  macOS Keychain item: service "zju-mail", account = email address, password = mail password.
-  Env overrides for testing: ZJU_MAIL_ADDR / ZJU_MAIL_PASS.
+One wrapper, multiple providers (select with -p/--provider):
+  zju   ZJU mailbox @zju.edu.cn (Coremail self-hosted)
+  qq    QQ mailbox @qq.com (requires IMAP/SMTP enabled + authorization code)
 
-Server info (public, from ZJU IT Center):
-  IMAP  imap.zju.edu.cn  993 (SSL)      SMTP  smtp.zju.edu.cn  994 (SSL)
+Credentials never live in this repo; per-provider macOS Keychain item:
+  zju:  service "zju-mail", account = email address, password = client-specific password
+  qq:   service "qq-mail",  account = email address, password = IMAP/SMTP authorization code
+Env overrides for testing: MAIL_ADDR / MAIL_PASS.
+
+Server info (public):
+  zju:  IMAP imap.zju.edu.cn 993 (SSL)   SMTP smtp.zju.edu.cn 994 (SSL)
+  qq:   IMAP imap.qq.com 993 (SSL)       SMTP smtp.qq.com 465 (SSL)
 
 Subcommands:
   test                                     login + capability check
@@ -43,37 +49,46 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import getaddresses, make_msgid, parseaddr
 
-IMAP_HOST = "imap.zju.edu.cn"
-IMAP_PORT = 993
-SMTP_HOST = "smtp.zju.edu.cn"
-SMTP_PORT = 994
-KEYCHAIN_SERVICE = "zju-mail"
+PROVIDERS = {
+    "zju": {
+        "imap": ("imap.zju.edu.cn", 993),
+        "smtp": ("smtp.zju.edu.cn", 994),
+        "keychain": "zju-mail",
+    },
+    "qq": {
+        "imap": ("imap.qq.com", 993),
+        "smtp": ("smtp.qq.com", 465),
+        "keychain": "qq-mail",
+    },
+}
+PROVIDER = "zju"  # set from CLI in main()
 
 
 # ---------------------------------------------------------------- credentials
 
 def keychain_password():
     r = subprocess.run(
-        ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE, "-w"],
+        ["security", "find-generic-password", "-s", PROVIDERS[PROVIDER]["keychain"], "-w"],
         capture_output=True, text=True)
     return r.stdout.strip() if r.returncode == 0 else None
 
 
 def keychain_account():
     r = subprocess.run(
-        ["security", "find-generic-password", "-s", KEYCHAIN_SERVICE],
+        ["security", "find-generic-password", "-s", PROVIDERS[PROVIDER]["keychain"]],
         capture_output=True, text=True)
     m = re.search(r'"acct"<blob>="([^"]*)"', r.stdout)
     return m.group(1) if m else None
 
 
 def get_credentials():
-    addr = os.environ.get("ZJU_MAIL_ADDR") or keychain_account()
-    pwd = os.environ.get("ZJU_MAIL_PASS") or keychain_password()
+    svc = PROVIDERS[PROVIDER]["keychain"]
+    addr = os.environ.get("MAIL_ADDR") or keychain_account()
+    pwd = os.environ.get("MAIL_PASS") or keychain_password()
     if not addr or not pwd:
-        fail("credentials not found: store once via "
-             'security add-generic-password -s zju-mail -a "<you>@zju.edu.cn" '
-             '-w "<password>", or export ZJU_MAIL_ADDR / ZJU_MAIL_PASS', code=2)
+        fail(f"credentials not found for provider '{PROVIDER}': store once via "
+             f'security add-generic-password -s {svc} -a "<email address>" '
+             '-w "<password>", or export MAIL_ADDR / MAIL_PASS', code=2)
     return addr, pwd
 
 
@@ -147,13 +162,14 @@ def dec_hdr(value):
 
 def imap_connect():
     addr, pwd = get_credentials()
+    host, port = PROVIDERS[PROVIDER]["imap"]
     try:
-        m = imaplib.IMAP4_SSL(IMAP_HOST, IMAP_PORT)
+        m = imaplib.IMAP4_SSL(host, port)
     except Exception as e:
-        fail(f"cannot reach {IMAP_HOST}:{IMAP_PORT}: {e}", code=3)
+        fail(f"cannot reach {host}:{port}: {e}", code=3)
     # Some Coremail builds require an IMAP ID command before login.
     try:
-        m._simple_command("ID", '("name" "zju-mail" "version" "1.0")')
+        m._simple_command("ID", '("name" "personal-mail" "version" "1.0")')
     except Exception:
         pass
     try:
@@ -257,7 +273,9 @@ def cmd_test(args):
     m, addr = imap_connect()
     typ, caps = m.capability()
     m.logout()
-    out({"account": addr, "imap": f"{IMAP_HOST}:{IMAP_PORT}", "capabilities": caps[0].decode() if caps and caps[0] else ""})
+    host, port = PROVIDERS[PROVIDER]["imap"]
+    out({"provider": PROVIDER, "account": addr, "imap": f"{host}:{port}",
+         "capabilities": caps[0].decode() if caps and caps[0] else ""})
 
 
 def cmd_folders(args):
@@ -387,7 +405,7 @@ def build_mime(addr, to_list, cc_list, subject, body, attach_paths):
         msg["Cc"] = ", ".join(cc_list)
     msg["Subject"] = Header(subject, "utf-8")
     msg["Date"] = email.utils.formatdate(localtime=True)
-    msg["Message-ID"] = make_msgid(domain="zju.edu.cn")
+    msg["Message-ID"] = make_msgid(domain=addr.split("@")[-1])
     msg.attach(MIMEText(body, "plain", "utf-8"))
     for path in attach_paths:
         if not os.path.isfile(path):
@@ -403,7 +421,8 @@ def build_mime(addr, to_list, cc_list, subject, body, attach_paths):
 
 
 def smtp_send(addr, pwd, msg, to_list, cc_list):
-    s = smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT)
+    host, port = PROVIDERS[PROVIDER]["smtp"]
+    s = smtplib.SMTP_SSL(host, port)
     try:
         s.login(addr, pwd)
         s.send_message(msg, from_addr=addr, to_addrs=to_list + cc_list)
@@ -453,14 +472,14 @@ def cmd_reply(args):
     msg["Subject"] = Header(orig_subject if orig_subject.lower().startswith("re:")
                             else "Re: " + orig_subject, "utf-8")
     msg["Date"] = email.utils.formatdate(localtime=True)
-    msg["Message-ID"] = make_msgid(domain="zju.edu.cn")
+    msg["Message-ID"] = make_msgid(domain=addr.split("@")[-1])
     if orig_msgid:
         msg["In-Reply-To"] = orig_msgid
         msg["References"] = " ".join(
             [r for r in (orig.get("References", "") + " " + orig_msgid).split() if r])
     msg.attach(MIMEText(body, "plain", "utf-8"))
 
-    pwd = os.environ.get("ZJU_MAIL_PASS") or keychain_password()
+    pwd = os.environ.get("MAIL_PASS") or keychain_password()
     smtp_send(addr, pwd, msg, to_list, cc_list)
     out({"sent_from": addr, "to": to_list, "cc": cc_list,
          "in_reply_to": orig_msgid, "subject": str(msg["Subject"])})
@@ -516,7 +535,10 @@ def cmd_draft(args):
 # ---------------------------------------------------------------- main
 
 def main():
-    p = argparse.ArgumentParser(prog="zju_mail.py", description="ZJU mailbox wrapper (IMAP/SMTP)")
+    p = argparse.ArgumentParser(
+        prog="mail.py", description="Personal mailbox wrapper (IMAP/SMTP, multi-provider)")
+    p.add_argument("-p", "--provider", choices=sorted(PROVIDERS), default="zju",
+                   help="mailbox provider (default: zju)")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     sub.add_parser("test")
@@ -575,6 +597,8 @@ def main():
                     help="custom IMAP keyword labels, e.g. --keyword 重要 Review")
 
     args = p.parse_args()
+    global PROVIDER
+    PROVIDER = args.provider
     if getattr(args, "since", None):
         d = email.utils.parsedate_to_datetime(args.since) if not re.match(r"^\d{4}-\d{2}-\d{2}$", args.since) else None
         if d is None:

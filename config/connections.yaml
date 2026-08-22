@@ -27,18 +27,34 @@ connections:
 
   - name: school-email
     description: 学校邮箱 @zju.edu.cn（Coremail 自建系统；主账号 0026177@zju.edu.cn，别名 xingminw@zju.edu.cn）
-    tool: skills/zju-mail/zju_mail.py（repo 内统一 wrapper，纯标准库 IMAP/SMTP）
-    status: connected（2026-08-21 实测：IMAP 登录/收件 ✅，SMTP 认证 ✅）
+    tool: skills/personal-mail/mail.py -p zju（repo 内统一 wrapper，纯标准库 IMAP/SMTP）
+    status: connected（2026-08-21 实测：IMAP 登录/收件 ✅，SMTP 认证 ✅，draft 落草稿箱 ✅）
     credentials: macOS Keychain service zju-mail（account=0026177@zju.edu.cn，password=客户端专用密码；凭据永不进 repo）
-    health_check: python3 skills/zju-mail/zju_mail.py test
-    playbook: skills/zju-mail/SKILL.md
+    health_check: python3 skills/personal-mail/mail.py -p zju test
+    playbook: skills/personal-mail/SKILL.md
     notes: |
       浙大邮箱是 Coremail 自建、开标准 IMAP/SMTP（imap.zju.edu.cn:993 /
       smtp.zju.edu.cn:994 SSL），无现成 connector，故走 repo 内 wrapper 直连
       （决策 D7）。二次验证默认开启：IMAP/SMTP 必须用网页端生成的"客户端
       专用密码"（可按设备建多条，独立于网页密码），不是 VPN/上网密码。
-      服务器支持 UIDPLUS（draft 返回 uid）。文件夹：INBOX/Drafts/
-      Sent Items/Trash/Junk E-mail/Virus Items。改 skill 后跑 scripts/sync_skills.sh。
+      服务器支持 UIDPLUS；APPENDUID 返回时间戳样式数字，真实 uid 以 list 为准。
+      文件夹：INBOX/Drafts/Sent Items/Trash/Junk E-mail/Virus Items。
+      改 skill 后跑 scripts/sync_skills.sh。
+
+  - name: qq-mail
+    description: QQ 邮箱（日常读发走官方 connector OAuth；wrapper 补草稿/标签/任意文件夹/大附件）
+    tool: |
+      官方 connector（qq-mail MCP，日常读/发/搜/附件/转发）
+      + skills/personal-mail/mail.py -p qq（IMAP/SMTP wrapper，补充能力）
+    status: connector connected；wrapper pending（等网页端开 IMAP/SMTP 服务 + 生成授权码存 Keychain service qq-mail）
+    credentials: wrapper 用 macOS Keychain service qq-mail（account=QQ 邮箱地址，password=16 位授权码）
+    health_check: python3 skills/personal-mail/mail.py -p qq test
+    playbook: skills/personal-mail/SKILL.md
+    notes: |
+      QQ 官方 connector 工具集无 draft/mark、文件夹只暴露 inbox/sent/
+      trash/spam、附件限 3 个共 3MB；wrapper（imap.qq.com:993 /
+      smtp.qq.com:465 SSL）补齐这些短板。授权码在网页版 设置→账户→
+      开启 IMAP/SMTP 后生成（决策 D8）。改 skill 后跑 scripts/sync_skills.sh。
 
   - name: tencent-meeting
     description: 腾讯会议（会议查询/创建，日程可同步到飞书）
