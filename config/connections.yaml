@@ -46,15 +46,18 @@ connections:
     tool: |
       官方 connector（qq-mail MCP，日常读/发/搜/附件/转发）
       + skills/personal-mail/mail.py -p qq（IMAP/SMTP wrapper，补充能力）
-    status: connector connected；wrapper pending（等网页端开 IMAP/SMTP 服务 + 生成授权码存 Keychain service qq-mail）
-    credentials: wrapper 用 macOS Keychain service qq-mail（account=QQ 邮箱地址，password=16 位授权码）
+    status: connected（2026-08-22 实测：IMAP 登录/收件/文件夹 ✅；SMTP 未实测，等首封发信验证）
+    credentials: wrapper 用 macOS Keychain service qq-mail（account=xingminw97@qq.com，password=16 位授权码；凭据永不进 repo）
     health_check: python3 skills/personal-mail/mail.py -p qq test
     playbook: skills/personal-mail/SKILL.md
     notes: |
       QQ 官方 connector 工具集无 draft/mark、文件夹只暴露 inbox/sent/
       trash/spam、附件限 3 个共 3MB；wrapper（imap.qq.com:993 /
-      smtp.qq.com:465 SSL）补齐这些短板。授权码在网页版 设置→账户→
-      开启 IMAP/SMTP 后生成（决策 D8）。改 skill 后跑 scripts/sync_skills.sh。
+      smtp.qq.com:465 SSL）补齐这些短板（决策 D8）。
+      **QQ IMAP 有连接频率限制：短时间多次连接会被 SYN 丢弃（表现为
+      挂死），等 ~1 分钟再试即可；wrapper 已加 30s socket 超时。**
+      文件夹：INBOX/Sent Messages/Drafts/Deleted Messages/Junk/
+      其他文件夹/归档。改 skill 后跑 scripts/sync_skills.sh。
 
   - name: tencent-meeting
     description: 腾讯会议（会议查询/创建，日程可同步到飞书）

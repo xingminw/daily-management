@@ -164,10 +164,12 @@ def imap_connect():
     addr, pwd = get_credentials()
     host, port = PROVIDERS[PROVIDER]["imap"]
     try:
-        m = imaplib.IMAP4_SSL(host, port)
+        m = imaplib.IMAP4_SSL(host, port, timeout=30)
     except Exception as e:
         fail(f"cannot reach {host}:{port}: {e}", code=3)
     # Some Coremail builds require an IMAP ID command before login.
+    # (Python's imaplib has no ID entry in its Commands table, so this may
+    # raise KeyError and be skipped — that is fine on servers that don't care.)
     try:
         m._simple_command("ID", '("name" "personal-mail" "version" "1.0")')
     except Exception:
@@ -422,7 +424,7 @@ def build_mime(addr, to_list, cc_list, subject, body, attach_paths):
 
 def smtp_send(addr, pwd, msg, to_list, cc_list):
     host, port = PROVIDERS[PROVIDER]["smtp"]
-    s = smtplib.SMTP_SSL(host, port)
+    s = smtplib.SMTP_SSL(host, port, timeout=30)
     try:
         s.login(addr, pwd)
         s.send_message(msg, from_addr=addr, to_addrs=to_list + cc_list)
